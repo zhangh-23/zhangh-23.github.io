@@ -15,6 +15,7 @@ app = Flask(__name__)
 CORS(app)
 questions_remaining=10
 hint_response = ""
+secret_word =""
 
 def open_file(filepath):
     with open(filepath, 'r', encoding='utf-8') as infile:
@@ -51,7 +52,7 @@ def gpt_completion(prompt, model='text-davinci-003', temp=1.2, top_p=1.0, tokens
 @app.route("/init", methods=["GET"])
 def init():
     seed_words = ""
-    questions_remaining = 10
+    global questions_remaining
     args = request.args
     difficulty = args["level"].lower()
     
@@ -72,11 +73,12 @@ def init():
 
 @app.route("/questions", methods=["POST"])
 def questions():
+    global questions_remaining
     question = request.json.get("question")
     print(question)            
     prompt = open_file('prompt_valid.txt').replace('<<QUESTION>>', question)
     is_valid = gpt_completion(prompt, temp=0.0)
-
+    
     if is_valid == 'False':
         questions_remaining = questions_remaining - 1
         return jsonify({"display":'Wasted attempt! That is not a yes or no question!'})
