@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Play Game</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#submit-question').click(function() {
+				var question = $('#question').val();
+				$.post('/submit-form', {'question': question}, function(data) {
+					$('#answer').text(data.answer);
+					$('#message').text(data.message);
+				});
+			});
+		});
+	</script>
+</head>
+<body>
+	<h1>Play Game</h1>
+	<p>AI has picked the secret word</p>
+	<p>Please ask your first question:</p>
+	<input type="text" id="question">
+	<button type="button" id="submit-question">Submit</button>
+	<p>AI Answer: <span id="answer"></span></p>
+	<p id="message"></p>
+</body>
+</html>
