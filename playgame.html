@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>Play Game</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
 		$(document).ready(function() {
@@ -16,12 +17,22 @@
 	</script>
 </head>
 <body>
-	<h1>Play Game</h1>
-	<p>AI has picked the secret word</p>
-	<p>Please ask your first question:</p>
-	<input type="text" id="question">
-	<button type="button" id="submit-question">Submit</button>
-	<p>AI Answer: <span id="answer"></span></p>
-	<p id="message"></p>
+  <header>
+    <h1>Play Game</h1>
+  </header>
+  <main>
+    <section>
+		<p>AI has picked the secret word</p>
+		<p>Please ask your first question:</p>
+		<input type="text" id="question">
+		<button type="button" id="submit-question">Submit</button>
+		<p>AI Answer: <span id="answer"></span></p>
+		<p id="message"></p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2023 Hackathon. All rights reserved.</p>
+  </footer>
 </body>
 </html>
+
