@@ -74,7 +74,13 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  
+  #home h1 {
+    color: #f2eaea;
+    font-size: 30px;
+    margin-bottom: 40px;
+  }
+
+
   #home h2 {
     color: #f2eaea;
     font-size: 24px;
