@@ -16,8 +16,7 @@
 			$('#submit-question').click(function() {
 				var question = $('#question').val();
 				$.post('/questions', {'question': question}, function(data) {
-					$('#answer').text(data.answer);
-					$('#message').text(data.message);
+					$('#answer').text(data.display);
 				});
 			});
 		});
