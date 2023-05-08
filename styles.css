@@ -23,8 +23,8 @@
   }
   
   header {
-    background-color: #333;
-    color: #fff;
+    background-color: #060606;
+    color: #dbd8d8;
     padding: 20px;
   }
   
@@ -38,7 +38,7 @@
   }
   
   nav ul li a {
-    color: #fff;
+    color: #999696;
     text-decoration: none;
     font-size: 18px;
     transition: color 0.3s ease;
@@ -67,7 +67,63 @@
   ul {
     margin-bottom: 20px;
   }
+
+  #home {
+    background-color: #210a58;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
   
+  #home h2 {
+    color: #f2eaea;
+    font-size: 24px;
+    margin-bottom: 40px;
+  }
+
+  #home p {
+    color: #959595;
+    text-align: top;
+    font-size: 16px;
+    line-height: 1.;
+    padding: 20px;
+  }
+
+  #about {
+    background-color: #210a58;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  #about h2 {
+    color: #f2eaea;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  #services {
+    background-color: #210a58;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  #services h2 {
+    color: #f2eaea;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  #services ul {
+    color: #959595;
+    text-align: top;
+    font-size: 16px;
+    line-height: 1.;
+    padding: 20px;
+  }
+  
+
   form input,
   form textarea {
     width: 100%;
@@ -102,3 +158,28 @@
     margin-bottom: 10px;
   }
   
+  .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh; /* Adjust the height as needed */
+  }
+
+  .my-button {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    background-color: #5b57c3;
+    color: #ffffff;
+    border-radius: 4px;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .my-button:hover {
+    background-color: #edd5b2;
+    cursor: pointer;
+  }
