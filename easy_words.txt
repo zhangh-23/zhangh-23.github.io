@@ -1,0 +1,60 @@
+Apple
+Dog
+Chair
+Car
+Banana
+Tree
+Cat
+Book
+Ball
+House
+Sun
+Key
+Hat
+Table
+Fish
+Bird
+Lamp
+Flower
+Shoe
+Clock
+Plate
+Fork
+Knife
+Cup
+Spoon
+Pizza
+Hamburger
+Ice cream
+Salad
+Sandwich
+Chicken
+Elephant
+Tiger
+Lion
+Monkey
+Bear
+Panda
+Giraffe
+Kangaroo
+Whale
+Dolphin
+Paris
+Rome
+Tokyo
+London
+New York
+Sydney
+Cairo
+Moscow
+Toronto
+Albert Einstein
+Elvis Presley
+Oprah Winfrey
+Michael Jordan
+Audrey Hepburn
+Taylor Swift
+Tom Hanks
+Serena Williams
+Bruce Lee
+Princess Diana
