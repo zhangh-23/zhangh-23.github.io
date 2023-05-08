@@ -1,8 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>About Us</title>
+	<title>Play Game</title>
   <link rel="stylesheet" type="text/css" href="styles.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#submit-question').click(function() {
+				var question = $('#question').val();
+				$.post('/questions', {'question': question}, function(data) {
+					$('#answer').text(data.answer);
+					$('#message').text(data.message);
+				});
+			});
+		});
+	</script>
 </head>
 <body>
   <header>
