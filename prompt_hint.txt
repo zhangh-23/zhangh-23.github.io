@@ -1,0 +1,43 @@
+A person is trying to guess a word. Based on the word that is given, provide an interesting fact about the word but do not reveal the word. 
+
+Word: Tennis
+Hint: It is a type of sport played all around the world
+
+Word: Apple
+Hint: It is a type of fruit
+
+Word: Rome
+Hint: It is a city with the most fountains in the world
+
+Word: Istanbul
+Hint: It is the 15th largest city in the world
+
+Word: Tea
+Hint: It is a common type of drink, most notably in Asia
+
+Word: Australia
+Hint: It is one of the biggest countries in the world by land size
+
+Word: Mars
+Hint: It is the only planet completely inhabited by robots
+
+Word: Pyramids
+Hint: It is one of the most famous monuments in the world
+
+Word: Pizza
+Hint: It is a food originating from Italy
+
+Word: Bush
+Hint: It is something you will find outdoors
+
+Word: Truck
+Hint: It is a type of vehicle
+
+Word: Salt
+Hint: It is a type of seasoning 
+
+Word: Computer
+Hint: It is a device that people use all around the world
+
+Word: <<WORD>>
+Hint: 
