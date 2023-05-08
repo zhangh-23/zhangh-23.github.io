@@ -7,7 +7,7 @@
 		$(document).ready(function() {
 			$('#submit-question').click(function() {
 				var question = $('#question').val();
-				$.post('/submit-form', {'question': question}, function(data) {
+				$.post('/questions', {'question': question}, function(data) {
 					$('#answer').text(data.answer);
 					$('#message').text(data.message);
 				});
