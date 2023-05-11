@@ -4,20 +4,41 @@
 	<title>Play Game</title>
   <link rel="stylesheet" type="text/css" href="styles.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script>
+		fetch('/init')
+            .then(response => response.json())
+            .then(data => {
+                alert(data.display);
+                // $('#answer').text(data.display);
+		});
+	</script> -->
+
     <script>
-			fetch('/init')
-				.then(response => response.json())
-				.then(data => {
-					alert(data.display);
-				});
-	</script>
+        $(document).ready(function() {
+            $.get("http://127.0.0.1:5000/init?level=easy", function(data, status) {
+                $("#result").text(data.display);
+            });
+        });
+    </script>
+
 	<script>
 		$(document).ready(function() {
 			$('#submit-question').click(function() {
 				var question = $('#question').val();
-				$.post('/questions', {'question': question}, function(data) {
-					$('#answer').text(data.display);
-				});
+				// $.post('http://127.0.0.1:5000/questions', {'question': question}, function(data) {
+				// 	$('#answer').text(data.display);
+				// }
+        $.ajax({
+          type: "POST",
+          url: "http://127.0.0.1:5000/questions",
+          data: JSON.stringify({question: question}),
+          contentType: "application/json",
+          success: function(data) {
+              $('#answer').text(data.display);
+          }
+          });
+
+        
 			});
 		});
 	</script>
@@ -28,7 +49,8 @@
   </header>
   <main>
     <section>
-		<p>AI has picked the secret word</p>
+        <div id="result"></div>
+		
 		<p>Please ask your first question:</p>
 		<input type="text" id="question">
 		<button type="button" id="submit-question">Submit</button>

@@ -9,7 +9,7 @@ from uuid import uuid4
 import random
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -70,28 +70,47 @@ def init():
     random.seed()
     secret_word = random.choice(seed_words)
 
-    return jsonify({"display": 'I have picked my secret word! Ask your first question... (questions remaining: %s)' % questions_remaining})
+    # secret_word = "cinema"
+
+    return jsonify({"display": 'I have picked my secret word! Ask your question...'})
 
 @app.route("/questions", methods=["POST"])
 def questions():
     global questions_remaining
     global secret_word
     question = request.json.get("question")
-    print(question)            
+               
+
     prompt = open_file('prompt_valid.txt').replace('<<QUESTION>>', question)
+    # prompt = 'hint'
+    # if prompt.lower() == 'hint':
+    #     # print('here')
+    #     hint_returned = hints()
+    #     print("hint_returned", hint_returned)
+    #     if hint_returned is None:
+    #         return jsonify({"display":"Sorry, couldn't come up with a hint"})
+    #     else:    
+    #         return jsonify({"display":hint_returned})
+
     is_valid = gpt_completion(prompt, temp=0.0)
     
     if is_valid == 'False':
         questions_remaining = questions_remaining - 1
-        return jsonify({"display":'Wasted attempt! That is not a yes or no question!'})
+        return jsonify({"display":f'Wasted attempt! That is not a yes or no question!,(Attempts Left:{questions_remaining})'})
     elif is_valid == 'True':
         questions_remaining = questions_remaining - 1
+        print(questions_remaining) 
         prompt = open_file('prompt_answer.txt').replace('<<SECRET>>', secret_word).replace('<<QUESTION>>', question)
+        
+       
         answer = gpt_completion(prompt)
         if answer == 'Correct!':
             return jsonify({"display":'Congratulations! You won the game! The word was ' + secret_word})
         else:
-            return jsonify({"display": answer})
+            response_data = {
+            'display': f'''{answer},(Attempts Left:{questions_remaining})'''
+            }
+            return jsonify(json.loads(json.dumps(response_data)))
     else:
         return jsonify({"display":'Sorry, the machine is confused, try again. No points deducted.'})
 
@@ -100,16 +119,18 @@ def questions():
         return jsonify({"display":'You are out of guesses! The correct answer was: %s' % secret_word})
  
 
-@app.route("/hints", methods=["GET"])
+# @app.route("/hints", methods=["GET"])
 def hints():
     global secret_word
+    # print('here')
     prompt = open_file('prompt_hint.txt').replace('<<WORD>>', secret_word)
     hint_answer = gpt_completion(prompt)
-    if hint_answer is None:
-        return jsonify({"hint":"Sorry, couldn't come up with a hint"})
-    else:    
-        return jsonify({"hint":hint_answer})
+    print(hint_answer)
+    return hint_answer
+    
+    
+    
 
 
 if __name__ == '__main__':
-__name__ == '__main__' 
+    __name__ == '__main__' 
