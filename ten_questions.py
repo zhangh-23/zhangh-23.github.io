@@ -9,7 +9,7 @@ from uuid import uuid4
 import random
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -53,6 +53,7 @@ def gpt_completion(prompt, model='text-davinci-003', temp=1.2, top_p=1.0, tokens
 def init():
     seed_words = ""
     global questions_remaining
+    global secret_word
     args = request.args
     difficulty = args["level"].lower()
     
@@ -69,27 +70,47 @@ def init():
     random.seed()
     secret_word = random.choice(seed_words)
 
-    return jsonify({"display": 'I have picked my secret word! Ask your first question... (questions remaining: %s)' % questions_remaining})
+    # secret_word = "cinema"
+
+    return jsonify({"display": 'I have picked my secret word! Ask your question...'})
 
 @app.route("/questions", methods=["POST"])
 def questions():
     global questions_remaining
+    global secret_word
     question = request.json.get("question")
-    print(question)            
+               
+
     prompt = open_file('prompt_valid.txt').replace('<<QUESTION>>', question)
+    # prompt = 'hint'
+    # if prompt.lower() == 'hint':
+    #     # print('here')
+    #     hint_returned = hints()
+    #     print("hint_returned", hint_returned)
+    #     if hint_returned is None:
+    #         return jsonify({"display":"Sorry, couldn't come up with a hint"})
+    #     else:    
+    #         return jsonify({"display":hint_returned})
+
     is_valid = gpt_completion(prompt, temp=0.0)
     
     if is_valid == 'False':
         questions_remaining = questions_remaining - 1
-        return jsonify({"display":'Wasted attempt! That is not a yes or no question!'})
+        return jsonify({"display":f'Wasted attempt! That is not a yes or no question!,(Attempts Left:{questions_remaining})'})
     elif is_valid == 'True':
         questions_remaining = questions_remaining - 1
+        print(questions_remaining) 
         prompt = open_file('prompt_answer.txt').replace('<<SECRET>>', secret_word).replace('<<QUESTION>>', question)
+        
+       
         answer = gpt_completion(prompt)
         if answer == 'Correct!':
             return jsonify({"display":'Congratulations! You won the game! The word was ' + secret_word})
         else:
-            return jsonify({"display": answer})
+            response_data = {
+            'display': f'''{answer},(Attempts Left:{questions_remaining})'''
+            }
+            return jsonify(json.loads(json.dumps(response_data)))
     else:
         return jsonify({"display":'Sorry, the machine is confused, try again. No points deducted.'})
 
@@ -98,90 +119,18 @@ def questions():
         return jsonify({"display":'You are out of guesses! The correct answer was: %s' % secret_word})
  
 
+# @app.route("/hints", methods=["GET"])
+def hints():
+    global secret_word
+    # print('here')
+    prompt = open_file('prompt_hint.txt').replace('<<WORD>>', secret_word)
+    hint_answer = gpt_completion(prompt)
+    print(hint_answer)
+    return hint_answer
+    
+    
+    
+
 
 if __name__ == '__main__':
-  """   # Choose difficulty
-    difficulty_level = ""
-    seed_words = ""
-    while True:
-        difficulty = input("Choose your difficulty (easy, medium, hard): %s" % difficulty_level.lower())
-        if difficulty == "easy":
-            seed_words = open_file('easy_words.txt').splitlines()
-            break
-        elif difficulty == "medium":
-            seed_words = open_file('medium_words.txt').splitlines()
-            break
-        elif difficulty == "hard":
-            seed_words = open_file('hard_words.txt').splitlines()
-            break
-        else:
-            print("Sorry I didn't understand, please try again.")
-            continue
-
-    random.seed()
-    secret_word = random.choice(seed_words)
-    questions_remaining = 10
-    hint_response = ""
-    print('I have picked my secret word! Ask your first question... (questions remaining: %s)' % questions_remaining)
-
-    
-    while True:  
-        if questions_remaining == 6 or questions_remaining == 3:
-            while True:
-                hint = input("Would you like a hint (yes or no)? %s" % hint_response.lower())
-                if hint == "yes":
-                    prompt = open_file('prompt_hint.txt').replace('<<WORD>>', secret_word)
-                    hint_answer = gpt_completion(prompt)
-                    if hint_answer is None:
-                        print("Sorry, couldn't come up with a hint")
-                    else:    
-                        print(hint_answer)
-                    break
-                elif hint == "no":
-                    print("No hint provided")
-                    break
-                else:
-                    print("I didn't understand. Please try again")
-                
-        # user asks a question        
-        question = input('Question (%s): ' % questions_remaining)
-        prompt = open_file('prompt_valid.txt').replace('<<QUESTION>>', question)
-        is_valid = gpt_completion(prompt, temp=0.0)
-    
-        if is_valid == 'False':
-            print('Wasted attempt! That is not a yes or no question!')
-        elif is_valid == 'True':
-            prompt = open_file('prompt_answer.txt').replace('<<SECRET>>', secret_word).replace('<<QUESTION>>', question)
-            answer = gpt_completion(prompt)
-            if answer == 'Correct!':
-                replay = ""
-                print('Congratulations! You won the game! The word was ' + secret_word)
-                while True:
-                    play_again = input("Would you like to play again (yes/no)?  %s" % replay.lower())
-                    if play_again == "yes":
-                        os.execv(sys.executable, ['python', 'TenQuestions.py'])
-                    elif play_again == "no":
-                        print("Thanks for playing!")
-                        exit(0)
-                    else:
-                        continue
-            print(answer)    
-        else:
-            print('Sorry, the machine is confused, try again. No points deducted.')
-            continue
-        # check if user has lost
-        questions_remaining = questions_remaining - 1
-        if questions_remaining <= 0:
-            replay = ""
-            print('You are out of guesses! The correct answer was: %s' % secret_word)
-            while True:
-                play_again = input("Would you like to play again (yes/no)?  %s" % replay.lower())
-                if play_again == "yes":
-                    os.execv(sys.executable, ['python', 'TenQuestions.py'])
-                elif play_again == "no":
-                    print("Thanks for playing!")
-                    exit(0)
-                else:
-                    continue"""
-
-__name__ == '__main__' 
+    __name__ == '__main__' 
