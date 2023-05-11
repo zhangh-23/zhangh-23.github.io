@@ -10,7 +10,6 @@ pip install flask-cors
 export FLASK_APP=ten_questions.py
 python3 -m flask run
 
-curl “localhost:5000/init?level=easy”
 
 In vs code, start index.html, it renders locally at url:
 http://127.0.0.1:3000/index.html
